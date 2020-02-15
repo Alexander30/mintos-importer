@@ -23,11 +23,16 @@ jobs:
         run: docker swarm init
       - name: Deploy Docker Swarm Stack
         if: success()
-        run: docker stack deploy -c docker-stack.test.yaml TEST
+        run: docker stack deploy -c docker-stack.test.yaml CI
+      - name: Wait for Docker Swarm Stack deployment to finish
+        if: success()
+        run: docker service ls
+      - name: Remove Docker Swarm Stack
+        if: success()
+        run: docker stack rm CI
       - name: Check PostgreSQL container
         if: success()
         run: |
-          docker run --rm -i -v /var/run/docker.sock:/var/run/docker.sock sudobmitch/docker-stack-wait TEST
           CONTAINER_ID=$(docker ps --filter name=pgsql -q -a)
           STATUS=$(docker inspect ${CONTAINER_ID} --format='{{.State.Status}}')
           if [ ${STATUS} != "running" ] ; then echo ${STATUS}; exit 1; else exit 0; fi

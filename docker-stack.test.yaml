@@ -18,7 +18,7 @@ services:
     labels:
       - traefik.enable=false
     #command: ['alembic-3', 'upgrade', 'head']
-    command: ['true']
+    command: ['sleep', '30m']
   pgsql:
     image: postgres
     deploy:
