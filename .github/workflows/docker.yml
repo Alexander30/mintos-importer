@@ -23,4 +23,8 @@ jobs:
         run: docker swarm init
       - name: Test Docker Swarm
         if: success()
-        run: docker stack deploy -c docker-stack.test.yaml TEST   
+        run: |
+          docker stack deploy -c docker-stack.test.yaml TEST
+          COINTAINER_ID=$(docker ps --filter status=exited -q)
+          EXIT_CODE=$(docker inspect $COINTAINER_ID --format='{{.State.ExitCode}}')
+          if [ ${EXIT_CODE} ] ; then exit 1; else exit 0; fi
