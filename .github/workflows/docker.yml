@@ -26,7 +26,10 @@ jobs:
         run: docker stack deploy -c docker-stack.test.yaml CI
       - name: Wait for Docker Swarm Stack deployment to finish
         if: success()
-        run: docker service ls
+        run: |
+          docker service ls
+          ID=$(docker service ls -q --filter name=CI_mintos-importer)
+          docker ps ${ID}
       - name: Remove Docker Swarm Stack
         if: success()
         run: docker stack rm CI
