@@ -19,7 +19,7 @@ fi
 
 if [ -z ${POSTGRES_PORT+x} ]; then
   echo "INFO: POSTGRES_PORT variable is not set. Configuring default port 5432."
-  PGSQL_PORT=5432
+  POSTGRES_PORT=5432
 fi
 
 if [ -z ${POSTGRES_DB+x} ]; then
@@ -32,7 +32,7 @@ if [ -z ${CRITICAL_VARIABLE_UNSET+x} ]; then
   ALEMBIC_CONF=${MINTOS_IMPORTER_ROOT}alembic.ini
   SQLALCHEMY_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_SERVER}:${POSTGRES_PORT}/${POSTGRES_DB}"
   echo "INFO: Configuring alembic.ini"
-  crudini --set ${ALEMBIC_CONF} alembic sqlalchemy.url ${SQLALCHEMY_URL}
+  crudini --inplace --set ${ALEMBIC_CONF} alembic sqlalchemy.url ${SQLALCHEMY_URL}
 else
   echo "CRIT: PostgreSQL log-in information are missing!"
   if ! [ -z ${DEBUG+x} ] || [[ "$@" != "bash" ]]; then
