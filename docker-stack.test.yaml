@@ -17,7 +17,8 @@ services:
       - POSTGRES_SERVER=pgsql
     labels:
       - traefik.enable=false
-    command: ['alembic-3', 'upgrade', 'head']
+    #command: ['alembic-3', 'upgrade', 'head']
+    command: ['false']
   pgsql:
     image: postgres
     deploy:
