@@ -17,4 +17,7 @@ jobs:
         run: docker build -t ${{ steps.docker_image_tag.outputs.TAG }}:latest ./
       - name: Test Docker entrypoint
         if: success()
-        run: docker run --env-file .env.local ${{ steps.docker_image_tag.outputs.TAG }} true   
+        run: docker run --env-file .env.local ${{ steps.docker_image_tag.outputs.TAG }} true
+      - name: Test Docker Swarm
+        if: success()
+        run: docker stack deploy -c docker-stack.test.yaml TEST   
