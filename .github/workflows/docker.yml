@@ -25,7 +25,6 @@ jobs:
         if: success()
         run: |
           docker stack deploy -c docker-stack.test.yaml TEST
-          COINTAINER_ID=$(docker ps --filter status=exited -q)
-          while ( [ -z ${COINTAINER_ID+x} ] ); do sleep 5s; done
-          EXIT_CODE=$(docker inspect $COINTAINER_ID --format='{{.State.ExitCode}}')
+          until ( CONTAINER_ID=$(docker ps --filter name=mintos-importer -q -a) ); do sleep 1; done
+          EXIT_CODE=$(docker inspect ${CONTAINER_ID} --format='{{.State.ExitCode}}')
           if [ ${EXIT_CODE} ] ; then exit 1; else exit 0; fi
