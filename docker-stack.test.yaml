@@ -3,7 +3,7 @@ version: '3.7'
 services:
   # Mintos Importer Service
   mintos-importer:
-    image: local/mintos-importer
+    image: perlur/mintos-importer
     deploy:
       replicas: 1
       restart_policy:
