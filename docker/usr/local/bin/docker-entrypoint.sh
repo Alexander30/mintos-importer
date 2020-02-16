@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 set -e
+if ! [ -z ${DEBUG+x} ]; then
+  set -x
+fi
 
 # Check environment variables
 if [ -z ${POSTGRES_USER+x} ]; then
@@ -33,24 +36,25 @@ if [ -z ${CRITICAL_VARIABLE_UNSET+x} ]; then
   SQLALCHEMY_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_SERVER}:${POSTGRES_PORT}/${POSTGRES_DB}"
   echo "INFO Configuring alembic.ini"
   crudini --inplace --set ${ALEMBIC_CONF} alembic sqlalchemy.url ${SQLALCHEMY_URL}
+  ERROR_COUNTER=0
+  until echo 2> /dev/null > /dev/tcp/${POSTGRES_SERVER}/${POSTGRES_PORT}; do
+    echo "INFO Waiting for PostgreSQL server."
+    sleep 1s
+    ERROR_COUNTER=$((ERROR_COUNTER+1))
+    if [[ ${ERROR_COUNTER} -eq 60 ]]; then
+      echo "CRIT PostgreSQL server is not reachable after 60 seconds!"
+      if [[ "$@" != "bash" ]]; then
+        exit 1
+      fi
+      break
+    fi
+  done
 else
   echo "CRIT PostgreSQL log-in information are missing!"
-  if ! [ -z ${DEBUG+x} ] || [[ "$@" != "bash" ]]; then
+  if [[ "$@" != "bash" ]]; then
     exit 1
   fi
+  exec "$@"
 fi
-
-ERROR_COUNTER=0
-until ( echo 2> /dev/null > /dev/tcp/${POSTGRES_SERVER}/${POSTGRES_PORT} ); do
-  echo "INFO Waiting for PostgreSQL server."
-  sleep 1s
-  ((ERROR_COUNTER++))
-  if [[ ${ERROR_COUNTER} -gt 60 ]]; then
-    echo "CRIT PostgreSQL server is not reachable after 60 seconds!"
-    if ! [ -z ${DEBUG+x} ] || [[ "$@" != "bash" ]]; then
-      exit 1
-    fi
-  fi
-done
 
 exec "$@"
