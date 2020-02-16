@@ -8,18 +8,14 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
-#    volumes:
- #     - ./src/:/usr/local/src/mintos-importer
+    volumes:
+     - ./src/:/usr/local/src/mintos-importer
     env_file:
       - .env.local
-    environment:
-      - POSTGRES_USER=mintos
-      - POSTGRES_PASSWORD=mintos
-      - POSTGRES_DB=mintos
-      - POSTGRES_SERVER=pgsql
     labels:
       - traefik.enable=false
     command: ['alembic-3', 'upgrade', 'head']
+  # PostgreSQL persistent storage
   pgsql:
     image: postgres
     deploy:
