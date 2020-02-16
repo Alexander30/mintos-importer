@@ -15,9 +15,6 @@ jobs:
       - name: Build :latest Docker image
         if: success()
         run: docker build -t ${{ steps.docker_image_tag.outputs.TAG }}:latest ./
-      - name: Test Docker entrypoint
-        if: success()
-        run: docker run --env-file .env.local ${{ steps.docker_image_tag.outputs.TAG }} true
       - name: Start PostgreSQL
         if: success()
         run: docker run --env-file .env.local --name pgsql -d postgres
