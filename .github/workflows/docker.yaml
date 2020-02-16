@@ -21,6 +21,9 @@ jobs:
       - name: Initialize Docker Swarm
         if: success()
         run: docker swarm init
+      - name: Pull PostgreSQL Docker image
+        if: success()
+        run: docker pull postgres
       - name: Deploy Docker Swarm Stack
         if: success()
         run: docker stack deploy -c docker-stack.ci.yaml CI
