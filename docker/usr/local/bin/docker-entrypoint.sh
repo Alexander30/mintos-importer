@@ -40,7 +40,8 @@ else
   fi
 fi
 
-until ( echo > /dev/tcp/${POSTGRES_SERVER}/${POSTGRES_PORT} >/dev/null 2>&1 ); do
+until ( echo > /dev/tcp/${POSTGRES_SERVER}/${POSTGRES_PORT} 2>&1 /dev/null ); do
+  echo "INFO Waiting for PostgreSQL."
   sleep 1s
 done
 
