@@ -21,6 +21,9 @@ jobs:
       - name: Start PostgreSQL
         if: success()
         run: docker run --env-file .env.local --name pgsql -d postgres
+      - name: Wait for PostgreSQL Start
+        if: success()
+        run: until( [ $(docker inspect pgsql --format '{{.State.Status}}') == "running" ] ); do sleep 1; done
       - name: Test database migrations
         if: success()
         run: docker run --link pgsql --env-file .env.local ${{ steps.docker_image_tag.outputs.TAG }} alembic-3 upgrade head
