@@ -15,6 +15,9 @@ jobs:
       - name: Build :latest Docker image
         if: success()
         run: docker build -t ${{ steps.docker_image_tag.outputs.TAG }}:latest ./
-      - name: Test Docker entrypoint
+      - name: Start PostgreSQL
         if: success()
-        run: docker run --env-file .env.local ${{ steps.docker_image_tag.outputs.TAG }} true   
+        run: docker run --env-file .env.local --name pgsql -d postgres
+      - name: Test database migrations
+        if: success()
+        run: docker run --link pgsql --env-file .env.local ${{ steps.docker_image_tag.outputs.TAG }} alembic-3 upgrade head

@@ -9,7 +9,7 @@ services:
       restart_policy:
         condition: on-failure
     volumes:
-     - ./src/:/usr/local/src/mintos-importer
+      - ./src/:/usr/local/src/mintos-importer
     env_file:
       - .env.local
     labels:
