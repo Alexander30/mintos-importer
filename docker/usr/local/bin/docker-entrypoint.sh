@@ -40,4 +40,8 @@ else
   fi
 fi
 
+until ( echo > /dev/tcp/${POSTGRES_SERVER}/${POSTGRES_PORT} >/dev/null 2>&1 ); do
+  sleep 1s
+done
+
 exec "$@"
