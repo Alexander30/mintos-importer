@@ -1,4 +1,4 @@
-"""Create p2p_lending_platforms table and/or mintos entry
+"""create p2p_lending_platforms table and/or mintos entry
 
 Revision ID: b7a70396a181
 Revises: 
