@@ -18,6 +18,9 @@ jobs:
       - name: Start PostgreSQL
         if: success()
         run: docker run --env-file .env.local --name pgsql -d postgres
-      - name: Test database migrations
+      - name: Test database upgrade
         if: success()
         run: docker run --link pgsql --env-file .env.local ${{ steps.docker_image_tag.outputs.TAG }} alembic-3 upgrade head
+      - name: Test database downgrade
+        if: success()
+        run: docker run --link pgsql --env-file .env.local ${{ steps.docker_image_tag.outputs.TAG }} alembic-3 downgrade base
