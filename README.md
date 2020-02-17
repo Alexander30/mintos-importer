@@ -11,3 +11,7 @@ Mintos P2P lending platform statement importer
 [i2]: https://github.com/PERLUR/mintos-statement-importer/issues/2
 [p3]: https://github.com/PERLUR/mintos-importer/pull/3
 [i12]: https://github.com/PERLUR/mintos-statement-importer/issues/12
+
+## Related projects
+- https://github.com/malferov/mintos
+- https://github.com/ChrisRBe/PP-P2P-Parser
