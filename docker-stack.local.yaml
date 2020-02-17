@@ -14,7 +14,7 @@ services:
       - .env.local
     labels:
       - traefik.enable=false
-    command: ['alembic-3', 'upgrade', 'head']
+    command: ['sleep', 'infinity']
   # PostgreSQL persistent storage
   pgsql:
     image: postgres

@@ -1,7 +1,7 @@
 """create mintos_statements table
 
 Revision ID: b18f0478ba29
-Revises: 
+Revises: b7a70396a181
 Create Date: 2020-02-15 15:27:30.746040
 
 """
@@ -10,25 +10,24 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = 'b18f0478ba29'
-down_revision = None
+down_revision = 'b7a70396a181'
 branch_labels = None
 depends_on = None
 
+statement_processing_states = sa.dialects.postgresql.ENUM(
+  'new',
+  'processing',
+  'processed',
+  'failed',
+  name='statement_processing_state'
+)
+
+filetypes = sa.dialects.postgresql.ENUM(
+  'xlsx',
+  name='filetypes'
+)
 
 def upgrade():
-  statement_processing_states = sa.dialects.postgresql.ENUM(
-    'new',
-    'processing',
-    'processed',
-    'failed',
-    name='statement_processing_state'
-  )
-
-  filetypes = sa.dialects.postgresql.ENUM(
-    'xlsx',
-    name='filetypes'
-  )
-
   op.create_table(
     'mintos_statements',
     sa.Column('id', sa.INTEGER, primary_key=True),
@@ -48,3 +47,5 @@ def upgrade():
 
 def downgrade():
   op.drop_table('mintos_statements')
+  statement_processing_states.drop(op.get_bind())
+  filetypes.drop(op.get_bind())
