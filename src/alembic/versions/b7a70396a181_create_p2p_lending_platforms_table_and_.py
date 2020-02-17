@@ -1,7 +1,7 @@
 """create p2p_lending_platforms table and/or mintos entry
 
 Revision ID: b7a70396a181
-Revises: 
+Revises:
 Create Date: 2020-02-17 00:52:02.194262
 
 """
@@ -14,6 +14,7 @@ revision = 'b7a70396a181'
 down_revision = None
 branch_labels = None
 depends_on = None
+
 
 def upgrade():
   conn = op.get_bind()
@@ -40,6 +41,7 @@ def upgrade():
       {'name': 'mintos'}
     ]
   )
+
 
 def downgrade():
   op.get_bind().execute(sa.sql.text("DELETE FROM p2p_lending_platforms WHERE name = 'mintos';"))

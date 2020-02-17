@@ -27,6 +27,7 @@ filetypes = sa.dialects.postgresql.ENUM(
   name='filetypes'
 )
 
+
 def upgrade():
   op.create_table(
     'mintos_statements',
