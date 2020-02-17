@@ -30,16 +30,16 @@ filetypes = sa.dialects.postgresql.ENUM(
 def upgrade():
   op.create_table(
     'mintos_statements',
-    sa.Column('id', sa.INTEGER, primary_key=True),
-    sa.Column('investment_account_id', sa.INTEGER, primary_key=True),
-    sa.Column('statement_file', sa.dialects.postgresql.BYTEA),
-    sa.Column('statement_file_type', filetypes),
-    sa.Column('upload_timestamp', sa.TIMESTAMP),
-    sa.Column('document_sha256_hash', sa.CHAR(64), unique=True),
-    sa.Column('transactions_total', sa.INTEGER),
-    sa.Column('first_transaction_timestamp', sa.TIMESTAMP),
-    sa.Column('last_transaction_timestamp', sa.TIMESTAMP),
-    sa.Column('processing_state', statement_processing_states),
+    sa.Column('id', sa.INTEGER, primary_key=True, nullable=False),
+    sa.Column('investment_account_id', sa.INTEGER, primary_key=True, nullable=False),
+    sa.Column('statement_file', sa.dialects.postgresql.BYTEA, nullable=False),
+    sa.Column('statement_file_type', filetypes, nullable=False),
+    sa.Column('upload_timestamp', sa.TIMESTAMP, nullable=False),
+    sa.Column('document_sha256_hash', sa.CHAR(64), unique=True, nullable=False),
+    sa.Column('transactions_total', sa.INTEGER, nullable=False),
+    sa.Column('first_transaction_timestamp', sa.TIMESTAMP, nullable=False),
+    sa.Column('last_transaction_timestamp', sa.TIMESTAMP, nullable=False),
+    sa.Column('processing_state', statement_processing_states, nullable=False),
     sa.Column('processing_start_timestamp', sa.TIMESTAMP),
     sa.Column('processing_finish_timestamo', sa.TIMESTAMP)
   )

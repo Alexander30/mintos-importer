@@ -15,34 +15,31 @@ down_revision = None
 branch_labels = None
 depends_on = None
 
-conn = op.get_bind()
-inspector = sa.engine.reflection.Inspector.from_engine(conn)
-tables = inspector.get_table_names()
-table_name = 'p2p_lending_platforms'
-
-if table_name in tables:
-  meta = sa.MetaData(conn)
-  meta.reflect(only=(table_name,))
-  p2p_lending_platforms = sa.Table(table_name, meta)
-
 def upgrade():
+  conn = op.get_bind()
+  inspector = sa.engine.reflection.Inspector.from_engine(conn)
+  tables = inspector.get_table_names()
+  table_name = 'p2p_lending_platforms'
+
   if table_name not in tables:
     p2p_lending_platforms = op.create_table(
       table_name,
-      sa.Column('id', sa.INTEGER, primary_key=True),
+      sa.Column('id', sa.INTEGER, primary_key=True, nullable=False),
       sa.Column('name', sa.String, unique=True, nullable=False)
     )
   else:
     meta = sa.MetaData(conn)
     meta.reflect(only=(table_name,))
     p2p_lending_platforms = sa.Table(table_name, meta)
+    meta = sa.MetaData(conn)
+    meta.reflect(only=(table_name,))
+    p2p_lending_platforms = sa.Table(table_name, meta)
+
   op.bulk_insert(p2p_lending_platforms,
     [
       {'name': 'mintos'}
     ]
   )
 
-
 def downgrade():
-  mintos = p2p_lending_platforms.delete().where(p2p_lending_platforms.c.name == 'mintos')
-  mintos.execute()
+  op.get_bind().execute(sa.sql.text("DELETE FROM p2p_lending_platforms WHERE name = 'mintos';"))
