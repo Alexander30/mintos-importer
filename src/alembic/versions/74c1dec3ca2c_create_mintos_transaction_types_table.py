@@ -18,7 +18,7 @@ depends_on = None
 
 def upgrade():
   mintos_transaction_types = op.create_table(
-    'mintos_transaction_types',
+    'p2p_lending_platforms_mintos_transaction_types',
     sa.Column('id', sa.INTEGER, primary_key=True, nullable=False),
     sa.Column('name', sa.String, unique=True, nullable=False)
   )
@@ -62,4 +62,4 @@ def upgrade():
 
 
 def downgrade():
-  op.drop_table('mintos_transaction_types')
+  op.drop_table('p2p_lending_platforms_mintos_transaction_types')
