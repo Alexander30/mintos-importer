@@ -47,6 +47,6 @@ def upgrade():
 
 
 def downgrade():
-  op.drop_table('p2p_lending_platforms_mintos_statements')
+  op.drop_table('p2p_lending_platform_mintos_statements')
   statement_processing_states.drop(op.get_bind())
   filetypes.drop(op.get_bind())
