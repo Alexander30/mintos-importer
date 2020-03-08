@@ -24,7 +24,7 @@ p2p_lending_platform_mintos_loan_type = sa.dialects.postgresql.ENUM(
   'Mortgage Loan',
   'Pawnbroking Loan',
   'Personal Loan',
-  'Short-Term Loan'
+  'Short-Term Loan',
   name='p2p_lending_platform_mintos_loan_type'
 )
 
