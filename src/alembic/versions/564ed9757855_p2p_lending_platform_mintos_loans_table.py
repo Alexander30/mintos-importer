@@ -32,7 +32,7 @@ def upgrade():
   op.create_table(
     'p2p_lending_platform_mintos_loans',
     sa.Column('id', sa.INTEGER, primary_key=True, nullable=False),
-    sa.Column('mintos_loan_id', sa.String, unique=True, nullable=False)
+    sa.Column('mintos_loan_id', sa.String, unique=True, nullable=False),
     sa.Column('mintos_loan_type', p2p_lending_platform_mintos_loan_type, nullable=True)
   )
 
