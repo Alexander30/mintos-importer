@@ -15,10 +15,27 @@ down_revision = '74c1dec3ca2c'
 branch_labels = None
 depends_on = None
 
+p2p_lending_platform_mintos_loan_type = sa.dialects.postgresql.ENUM(
+  'Agricultural Loan',
+  'Business Loan',
+  'Car Loan',
+  'Forward Flow Loan',
+  'Invoice Financing',
+  'Mortgage Loan',
+  'Pawnbroking Loan',
+  'Personal Loan',
+  'Short-Term Loan'
+  name='p2p_lending_platform_mintos_loan_type'
+)
 
 def upgrade():
-    pass
-
+  op.create_table(
+    'p2p_lending_platform_mintos_loans',
+    sa.Column('id', sa.INTEGER, primary_key=True, nullable=False),
+    sa.Column('mintos_loan_id', sa.String, unique=True, nullable=False)
+    sa.Column('mintos_loan_type', p2p_lending_platform_mintos_loan_type, nullable=True)
+  )
 
 def downgrade():
-    pass
+  op.drop_table('p2p_lending_platform_mintos_statements')
+  p2p_lending_platform_mintos_loan_type.drop(op.get_bind())
