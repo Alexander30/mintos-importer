@@ -30,7 +30,7 @@ filetypes = sa.dialects.postgresql.ENUM(
 
 def upgrade():
   op.create_table(
-    'mintos_statements',
+    'p2p_lending_platforms_mintos_statements',
     sa.Column('id', sa.INTEGER, primary_key=True, nullable=False),
     sa.Column('investment_account_id', sa.INTEGER, primary_key=True, nullable=False),
     sa.Column('statement_file', sa.dialects.postgresql.BYTEA, nullable=False),
@@ -47,6 +47,6 @@ def upgrade():
 
 
 def downgrade():
-  op.drop_table('mintos_statements')
+  op.drop_table('p2p_lending_platforms_mintos_statements')
   statement_processing_states.drop(op.get_bind())
   filetypes.drop(op.get_bind())
