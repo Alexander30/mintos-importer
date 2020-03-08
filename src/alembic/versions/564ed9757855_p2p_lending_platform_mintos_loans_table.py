@@ -37,5 +37,5 @@ def upgrade():
   )
 
 def downgrade():
-  op.drop_table('p2p_lending_platform_mintos_statements')
+  op.drop_table('p2p_lending_platform_mintos_loans')
   p2p_lending_platform_mintos_loan_type.drop(op.get_bind())
