@@ -1,4 +1,4 @@
-"""create mintos_statements table
+"""create p2p_lending_platform_mintos_statements table
 
 Revision ID: b18f0478ba29
 Revises: b7a70396a181
@@ -30,7 +30,7 @@ filetypes = sa.dialects.postgresql.ENUM(
 
 def upgrade():
   op.create_table(
-    'p2p_lending_platforms_mintos_statements',
+    'p2p_lending_platform_mintos_statements',
     sa.Column('id', sa.INTEGER, primary_key=True, nullable=False),
     sa.Column('investment_account_id', sa.INTEGER, primary_key=True, nullable=False),
     sa.Column('statement_file', sa.dialects.postgresql.BYTEA, nullable=False),

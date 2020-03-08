@@ -1,4 +1,4 @@
-"""create mintos_transaction_types table
+"""create p2p_lending_platform_mintos_transaction_types table
 
 Revision ID: 74c1dec3ca2c
 Revises: b18f0478ba29
@@ -18,7 +18,7 @@ depends_on = None
 
 def upgrade():
   mintos_transaction_types = op.create_table(
-    'p2p_lending_platforms_mintos_transaction_types',
+    'p2p_lending_platform_mintos_transaction_types',
     sa.Column('id', sa.INTEGER, primary_key=True, nullable=False),
     sa.Column('name', sa.String, unique=True, nullable=False)
   )
